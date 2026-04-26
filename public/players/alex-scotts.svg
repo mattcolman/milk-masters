@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="title">
+  <title id="title">Alex Scotts placeholder portrait</title>
+  <rect width="640" height="480" fill="#123e25"/>
+  <path d="M0 360c132-82 268-94 408-36 87 36 164 38 232 6v150H0z" fill="#efc75e" opacity=".9"/>
+  <circle cx="320" cy="182" r="74" fill="#fff9e8"/>
+  <path d="M194 392c23-78 79-124 126-124s103 46 126 124" fill="#fff9e8"/>
+  <text x="320" y="438" text-anchor="middle" font-family="Georgia, serif" font-size="56" font-weight="700" fill="#123e25">AS</text>
+</svg>

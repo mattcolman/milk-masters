@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="title">
+  <title id="title">Matt Colman placeholder portrait</title>
+  <rect width="640" height="480" fill="#0d351f"/>
+  <circle cx="500" cy="90" r="130" fill="#efc75e" opacity=".9"/>
+  <circle cx="320" cy="185" r="74" fill="#f7f0df"/>
+  <path d="M190 395c18-83 79-132 130-132s112 49 130 132" fill="#f7f0df"/>
+  <text x="320" y="438" text-anchor="middle" font-family="Georgia, serif" font-size="56" font-weight="700" fill="#efc75e">MC</text>
+</svg>

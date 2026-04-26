@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="title">
+  <title id="title">Charlie Turner placeholder portrait</title>
+  <rect width="640" height="480" fill="#173b22"/>
+  <circle cx="120" cy="120" r="150" fill="#efc75e" opacity=".75"/>
+  <circle cx="320" cy="184" r="74" fill="#fff9e8"/>
+  <path d="M194 394c21-80 79-126 126-126s105 46 126 126" fill="#fff9e8"/>
+  <text x="320" y="438" text-anchor="middle" font-family="Georgia, serif" font-size="56" font-weight="700" fill="#efc75e">CT</text>
+</svg>
