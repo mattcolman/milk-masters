@@ -1,5 +1,6 @@
 import type { Course } from '../types/trip';
 
+/** Optional `fullCourseTourYoutubeId`: paste the 11-char id from YouTube → Share for each course’s flyover. */
 export const courses: Course[] = [
   {
     id: 'bougle-run',
@@ -12,6 +13,7 @@ export const courses: Course[] = [
     holes: 14,
     par: 42,
     link: 'https://barnbougle.com.au/golf/bougle-run/',
+    fullCourseTourYouTubeSearchQuery: 'Barnbougle Bougle Run full course flyover',
   },
   {
     id: 'barnbougle-dunes',
@@ -24,6 +26,7 @@ export const courses: Course[] = [
     holes: 18,
     par: 71,
     link: 'https://barnbougle.com.au/golf/the-dunes/',
+    fullCourseTourYouTubeSearchQuery: 'Golf Digest every hole Barnbougle Dunes',
   },
   {
     id: 'lost-farm',
@@ -36,5 +39,6 @@ export const courses: Course[] = [
     holes: 20,
     par: 78,
     link: 'https://barnbougle.com.au/golf/lost-farm/',
+    fullCourseTourYouTubeSearchQuery: 'Golf Digest every hole Barnbougle Lost Farm',
   },
 ];

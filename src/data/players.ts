@@ -1,4 +1,8 @@
 import type { Player } from '../types/trip';
+import alexPlayerCard from '../../assets/player cards/alex player card.png';
+import duckPlayerCard from '../../assets/player cards/duck player card.png';
+import mattPlayerCard from '../../assets/player cards/matt player card.png';
+import willPlayerCard from '../../assets/player cards/will player card.png';
 
 export const players: Player[] = [
   {
@@ -7,7 +11,7 @@ export const players: Player[] = [
     caption: 'Patron saint of the group chat and optimistic recovery shots.',
     handicap: 20,
     milkPreference: 'Unpasterised Full Cream',
-    imageUrl: '/players/matt-colman.svg',
+    imageUrl: mattPlayerCard,
   },
   {
     id: 'alex-scotts',
@@ -15,7 +19,7 @@ export const players: Player[] = [
     caption: 'Single-figure menace with a calm walk and a dangerous wedge.',
     handicap: 6,
     milkPreference: 'A2',
-    imageUrl: '/players/alex-scotts.svg',
+    imageUrl: alexPlayerCard,
   },
   {
     id: 'will-turner',
@@ -23,14 +27,14 @@ export const players: Player[] = [
     caption: 'Technician, tactician, and sworn enemy of three-putts.',
     handicap: 14,
     milkPreference: 'Light white',
-    imageUrl: '/players/will-turner.svg',
+    imageUrl: willPlayerCard,
   },
   {
     id: 'charlie-turner',
-    name: 'Charlie Turner',
+    name: 'Duck Turner',
     caption: 'Low handicap, high standards, soy-powered consistency.',
     handicap: 6,
     milkPreference: 'So good soy milk',
-    imageUrl: '/players/charlie-turner.svg',
+    imageUrl: duckPlayerCard,
   },
 ];

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties, FormEvent, ReactNode } from 'react';
 import heroPoster from '../assets/Barnbougle-Play-theDunes-banner-1.jpg';
+import { TripCountdown } from './TripCountdown';
 import { courses } from './data/courses';
 import { itinerary } from './data/itinerary';
 import { nearby } from './data/nearby';
@@ -43,6 +44,13 @@ type StoredSession = {
 
 const publicAsset = (path: string) =>
   `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+const journeyRouteMapSrc = publicAsset('maps/launceston-barnbougle-map.jpg');
+const launcestonMapsUrl =
+  'https://www.google.com/maps/search/?api=1&query=Launceston+Airport+LST+Tasmania';
+const barnbougleMapsUrl =
+  'https://www.google.com/maps/search/?api=1&query=Barnbougle+Golf+Bridport+Tasmania';
+const playerImage = (path: string) =>
+  path.startsWith('/players/') ? publicAsset(path) : path;
 
 const loadSession = (): StoredSession => {
   const saved = window.localStorage.getItem(sessionKey);
@@ -68,6 +76,14 @@ const formatRelative = (strokes: number, par: number) => {
   return diff > 0 ? `+${diff}` : `${diff}`;
 };
 
+const youtubeTourSearchUrl = (query: string) =>
+  `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+
+const isYouTubeVideoId = (value: string) => /^[a-zA-Z0-9_-]{11}$/.test(value.trim());
+
+const youtubeTourEmbedSrc = (videoId: string) =>
+  `https://www.youtube-nocookie.com/embed/${videoId.trim()}`;
+
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>('Players');
 
@@ -81,6 +97,7 @@ function App() {
           } as CSSProperties
         }
       >
+        <TripCountdown />
         <div className="hero__content">
           <div className="hero__eyebrow">Barnbougle Tasmania</div>
           <h1>Milk Masters</h1>
@@ -141,6 +158,8 @@ function SectionIntro({
 }
 
 function PlayersTab() {
+  const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
+
   return (
     <section>
       <ScenicBanner
@@ -151,25 +170,92 @@ function PlayersTab() {
 
       <SectionIntro eyebrow="Field" title="The Invitational Four">
         <p>
-          Player cards are ready for real photos later. For now, each contender
-          gets a tournament-style profile and their essential dairy credential.
+          Custom player cards are now in play for the full field, each with
+          official artwork in the assets folder.
         </p>
       </SectionIntro>
 
       <div className="player-grid">
         {players.map((player) => (
-          <article className="player-card" key={player.id}>
-            <img src={publicAsset(player.imageUrl)} alt="" />
+          <button
+            className="player-card"
+            key={player.id}
+            type="button"
+            onClick={() => setSelectedPlayer(player)}
+          >
+            <img src={playerImage(player.imageUrl)} alt={`${player.name} player card`} />
             <div>
               <p className="card-kicker">Handicap {player.handicap}</p>
               <h3>{player.name}</h3>
               <p>{player.caption}</p>
               <span>{player.milkPreference}</span>
             </div>
-          </article>
+          </button>
         ))}
       </div>
+
+      {selectedPlayer && (
+        <PlayerDetailModal
+          player={selectedPlayer}
+          onClose={() => setSelectedPlayer(null)}
+        />
+      )}
     </section>
+  );
+}
+
+function PlayerDetailModal({
+  player,
+  onClose,
+}: {
+  player: Player;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      className="player-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="player-modal-title"
+      onClick={onClose}
+    >
+      <div className="player-modal__panel" onClick={(event) => event.stopPropagation()}>
+        <button className="player-modal__close" type="button" onClick={onClose}>
+          Close
+        </button>
+
+        <img
+          className="player-modal__image"
+          src={playerImage(player.imageUrl)}
+          alt={`${player.name} player card enlarged`}
+        />
+
+        <div className="player-modal__details">
+          <p className="card-kicker">Milk Masters profile</p>
+          <h3 id="player-modal-title">{player.name}</h3>
+          <p>{player.caption}</p>
+
+          <dl>
+            <div>
+              <dt>Handicap</dt>
+              <dd>{player.handicap}</dd>
+            </div>
+            <div>
+              <dt>Milk preference</dt>
+              <dd>{player.milkPreference}</dd>
+            </div>
+            <div>
+              <dt>Card status</dt>
+              <dd>
+                {player.imageUrl.startsWith('/players/')
+                  ? 'Placeholder artwork'
+                  : 'Official player card'}
+              </dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -185,11 +271,40 @@ function ItineraryTab() {
             trade airport asphalt for coastal dunes and links turf.
           </p>
         </div>
-        <div className="journey-panel__map" aria-hidden="true">
-          <span>Launceston</span>
-          <i />
-          <span>Barnbougle</span>
-        </div>
+        <figure className="journey-panel__map">
+          <img
+            className="journey-panel__map-img"
+            src={journeyRouteMapSrc}
+            width={800}
+            height={280}
+            useMap="#journey-route-map"
+            alt="North-east Tasmania: tap the west marker for Launceston or the east marker for Barnbougle to open maps."
+            loading="lazy"
+            decoding="async"
+          />
+          <map id="journey-route-map" name="journey-route-map">
+            <area
+              shape="circle"
+              coords="168,142,56"
+              href={launcestonMapsUrl}
+              target="_blank"
+              rel="noreferrer"
+              alt="Open Launceston Airport in Google Maps"
+            />
+            <area
+              shape="circle"
+              coords="632,138,56"
+              href={barnbougleMapsUrl}
+              target="_blank"
+              rel="noreferrer"
+              alt="Open Barnbougle in Google Maps"
+            />
+          </map>
+          <figcaption className="journey-panel__map-hint">
+            Tap the markers on the image — Launceston (west) and Barnbougle (east) — to open
+            Google Maps.
+          </figcaption>
+        </figure>
       </div>
 
       <SectionIntro eyebrow="Schedule" title="Three Days On The Links">
@@ -226,6 +341,13 @@ function CourseTab() {
         </p>
       </SectionIntro>
 
+      <p className="course-tours-preface">
+        Full-course flyovers sit on each card below. When a tour is wired up you get the
+        player in-page; otherwise the red button opens YouTube with a curated search
+        (Golf Digest-style hole-by-hole for Dunes and Lost Farm, official Barnbougle clips
+        for Bougle Run).
+      </p>
+
       <div className="card-grid">
         {courses.map((course) => (
           <article className="feature-card course-card" key={course.id}>
@@ -245,6 +367,35 @@ function CourseTab() {
               <a href={course.link} target="_blank" rel="noreferrer">
                 Course details
               </a>
+              <div className="course-card__tour">
+                <p className="course-card__tour-label">Full course tour</p>
+                {course.fullCourseTourYoutubeId &&
+                isYouTubeVideoId(course.fullCourseTourYoutubeId) ? (
+                  <div className="course-tour-embed">
+                    <iframe
+                      title={`${course.name} full course tour`}
+                      src={youtubeTourEmbedSrc(course.fullCourseTourYoutubeId)}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                    />
+                  </div>
+                ) : null}
+                <div className="course-tour-actions">
+                  <a
+                    className="course-tour-yt-link"
+                    href={youtubeTourSearchUrl(course.fullCourseTourYouTubeSearchQuery)}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {course.fullCourseTourYoutubeId &&
+                    isYouTubeVideoId(course.fullCourseTourYoutubeId)
+                      ? 'Open this tour on YouTube'
+                      : 'Find full course tour on YouTube'}
+                  </a>
+                </div>
+              </div>
             </div>
           </article>
         ))}

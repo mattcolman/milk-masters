@@ -22,6 +22,10 @@ export type Course = {
   holes: number;
   par: number;
   link: string;
+  /** 11-character YouTube id (`watch?v=…`) to embed a full-course / flyover tour on the Course tab */
+  fullCourseTourYoutubeId?: string;
+  /** Used for the “open on YouTube” link when no `fullCourseTourYoutubeId` is set */
+  fullCourseTourYouTubeSearchQuery: string;
 };
 
 export type Venue = {
